@@ -183,7 +183,7 @@ mybatis-plus:
   mapper-locations:
     - classpath*:mapper_**/**/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.itheima.pinda.*.entity;com.itheima.pinda.database.mybatis.typehandler
+  typeAliasesPackage: com.hzh.pinda.*.entity;com.hzh.pinda.database.mybatis.typehandler
   global-config:
     db-config:
       id-type: INPUT
@@ -221,13 +221,13 @@ pinda:
     docket:
       auth:
         title: 权限模块
-        base-package: com.itheima.pinda.authority.controller.auth
+        base-package: com.hzh.pinda.authority.controller.auth
       common:
         title: 公共模块
-        base-package: com.itheima.pinda.authority.controller.common
+        base-package: com.hzh.pinda.authority.controller.common
       core:
         title: 组织岗位模块
-        base-package: com.itheima.pinda.authority.controller.core
+        base-package: com.hzh.pinda.authority.controller.core
 
 authentication:
   user:
