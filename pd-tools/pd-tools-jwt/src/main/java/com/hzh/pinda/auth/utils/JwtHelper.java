@@ -2,6 +2,7 @@ package com.hzh.pinda.auth.utils;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDateTime;
 
@@ -12,13 +13,7 @@ import com.hzh.pinda.utils.DateUtils;
 import com.hzh.pinda.utils.NumberHelper;
 import com.hzh.pinda.utils.StrHelper;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtHelper {
@@ -96,7 +91,11 @@ public class JwtHelper {
      */
     private static Jws<Claims> parserToken(String token, String pubKeyPath) throws BizException {
         try {
-            return Jwts.parser().setSigningKey(RSA_KEY_HELPER.getPublicKey(pubKeyPath)).parseClaimsJws(token);
+            JwtParser parser = Jwts.parser();
+            PublicKey publicKey = RSA_KEY_HELPER.getPublicKey(pubKeyPath);
+            JwtParser jwtParser = parser.setSigningKey(publicKey);
+            Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
+            return claimsJws;
         } catch (ExpiredJwtException ex) {
             //过期
             throw new BizException(ExceptionCode.JWT_TOKEN_EXPIRED.getCode(), ExceptionCode.JWT_TOKEN_EXPIRED.getMsg());

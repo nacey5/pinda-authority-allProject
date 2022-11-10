@@ -6,6 +6,7 @@ import com.hzh.pinda.authority.dto.auth.LoginDTO;
 import com.hzh.pinda.authority.dto.auth.LoginParamDTO;
 import com.hzh.pinda.base.BaseController;
 import com.hzh.pinda.base.R;
+import com.hzh.pinda.log.annotation.SysLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ public class LoginController extends BaseController {
      */
     @GetMapping(value = "/captcha",produces = "image/png")
     @ApiOperation(notes = "验证码",value = "验证码")
+    @SysLog("生成验证码")
     public void captcha(@RequestParam("key") String key, HttpServletResponse response) throws IOException {
         validateCodeService.create(key,response);
     }
@@ -51,6 +53,7 @@ public class LoginController extends BaseController {
     //登录认证
     @PostMapping("/login")
     @ApiOperation(notes = "登录",value = "登录")
+    @SysLog("登录")
     public R<LoginDTO> login(@Validated @RequestBody LoginParamDTO loginParamDTO){
         //校验验证码是否正确
         boolean isTrue=validateCodeService.check(loginParamDTO.getKey(),loginParamDTO.getCode());
